@@ -95,11 +95,11 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>Date: </h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="date" onChange={event => {
-            setInputAssembly({...inputAssembly,"start":event.target.value});
+            <Form.Control className="w-50p d-ilb" type="date" defaultValue={assembly.date} onChange={event => {
+            setInputAssembly({...inputAssembly,"date":event.target.value});
             }}></Form.Control>
-            <p className="d-ilb">Previously: {assembly.start}</p>
-            {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
+            <p className="d-ilb">Previously: {assembly.date}</p>
+            {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
         </Col>
     </Row>
     

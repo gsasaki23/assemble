@@ -13,8 +13,6 @@ export default () => {
     const [loaded, setLoaded] = useState(false);
     const [eventCode, setEventCode] = useState('');
     const [error, setError] = useState('');
-    // All Names in DB
-    const [dbnames, setDBnames] = useState([]);
     
     // Listener for form input
     const onEventCodeChange = event => {
@@ -28,13 +26,6 @@ export default () => {
             .then(res => {
                 setAssemblies(res.data);
                 setLoaded(true);
-                
-                // TODO Design decision: keep or nah
-                let db_names = [];
-                res.data.forEach((assembly)=>{
-                    db_names.push(assembly.name);
-                });
-                setDBnames(db_names);
             })
             .catch(console.log);
     },[]);

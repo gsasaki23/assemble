@@ -103,7 +103,7 @@ export default () => {
     <Row className="px-3">
         <Col xs={3}><h2>Event Name (>2 chars):</h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange}></Form.Control>
+            <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange} autoFocus></Form.Control>
             {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
             {clientErrors.name !== undefined ? (<span className="clientValError">{clientErrors.name}</span>):("")}
         </Col>

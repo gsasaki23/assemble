@@ -11,7 +11,7 @@ export default () => {
 
         // Close socket when App is unmounted
         return () => socket.disconnect(true);
-    }, []);
+    }, [socket]);
 
     const handleIncrement = event => {
         event.preventDefault();

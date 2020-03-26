@@ -91,7 +91,7 @@ export default (props) => {
     {/* Date */}
     <Row className="px-3">
         <Col xs={3}><h2>Date: </h2></Col>
-        <Col><h5>{assembly.start}</h5></Col>
+        <Col><h5>{assembly.date}</h5></Col>
     </Row>
     
     {/* Start Time */}
