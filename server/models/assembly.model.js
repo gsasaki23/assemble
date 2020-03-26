@@ -7,6 +7,7 @@ const TeammateSchema = require("./teammate.model").schema;
 const requiredMsg = "{PATH} is required.";
 const minlengthMsg = "{PATH} must be at least {MINLENGTH} characters.";
 const maxlengthMsg = "{PATH} must be within {MAXLENGTH} characters.";
+const uniqueMsg = "{PATH} must be unique.";
 
 // Create Assembly Schema
 const AssemblySchema = new mongoose.Schema({
@@ -14,14 +15,17 @@ const AssemblySchema = new mongoose.Schema({
 		type: String,
 		required: [true, requiredMsg],
 		minlength: [2, minlengthMsg],
-		dropDups: true,
+	},
+	date: {
+		type: String,
+		required: [true, requiredMsg],
 	},
 	start: {
-		type: Date,
+		type: String,
 		required: [true, requiredMsg],
 	},
 	end: {
-		type: Date,
+		type: String,
 		required: [true, requiredMsg],
 	},
 	description: {
@@ -54,14 +58,12 @@ const AssemblySchema = new mongoose.Schema({
 		required: [true, requiredMsg],
 		minlength: [2, minlengthMsg],
 		maxlength: [13, maxlengthMsg],
-		dropDups: true,
 	},
 	eventCode: {
 		type: String,
 		required: [true, requiredMsg],
 		minlength: [2, minlengthMsg],
 		maxlength: [20, maxlengthMsg],
-		dropDups: true,
 	},
 	team: [TeammateSchema],
 }, { timestamps: true }

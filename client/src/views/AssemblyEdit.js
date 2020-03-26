@@ -248,9 +248,3 @@ export default (props) => {
     <h3>getting the date to show by default</h3>
     </>
 )};
-
-{/* <Form onSubmit={onSubmitHandler}>
-    <Form.Control className="w-50p" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></Form.Control>
-    <Button variant="primary" type="submit">Submit</Button>
-    {error !== "" ? <span className="d-b">{error}</span>:("")}
-</Form> */}
