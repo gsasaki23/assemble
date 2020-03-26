@@ -25,7 +25,7 @@ const AssemblySchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
-		maxlength: [140, maxlengthMsg],
+		
 	},
 	address: {
 		street: String,
@@ -36,6 +36,14 @@ const AssemblySchema = new mongoose.Schema({
 	secretCode: {
 		type: String,
 		required: [true, requiredMsg],
+		minlength: [2, minlengthMsg],
+		maxlength: [13, maxlengthMsg],
+	},
+	eventCode: {
+		type: String,
+		required: [true, requiredMsg],
+		minlength: [2, minlengthMsg],
+		maxlength: [20, maxlengthMsg],
 	},
 	team: [TeammateSchema],
 }, { timestamps: true }
