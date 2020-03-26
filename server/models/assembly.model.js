@@ -6,14 +6,15 @@ const TeammateSchema = require("./teammate.model").schema;
 // Repeating message vars
 const requiredMsg = "{PATH} is required.";
 const minlengthMsg = "{PATH} must be at least {MINLENGTH} characters.";
-const maxlengthMsg = "{PATH} must be within {MINLENGTH} characters, like a tweet.";
+const maxlengthMsg = "{PATH} must be within {MAXLENGTH} characters.";
 
 // Create Assembly Schema
 const AssemblySchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: [true, requiredMsg],
-		minlength: [2, minlengthMsg]
+		minlength: [2, minlengthMsg],
+		dropDups: true,
 	},
 	start: {
 		type: Date,
@@ -25,25 +26,42 @@ const AssemblySchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
-		
 	},
 	address: {
-		street: String,
-		city: String,
-		state: String,
-		zip: Number,
+		street: {
+			type: String,
+			required: [true, requiredMsg]
+		},
+		city: {
+			type: String,
+			required: [true, requiredMsg]
+		},
+		state: {
+			type: String,
+			required: [true, requiredMsg],
+			minlength: [2, minlengthMsg],
+			maxlength: [2, maxlengthMsg],
+		},
+		zip: {
+			type: Number,
+			required: [true, requiredMsg],
+			minlength: [5, minlengthMsg],
+			maxlength: [5, maxlengthMsg],
+		},
 	},
 	secretCode: {
 		type: String,
 		required: [true, requiredMsg],
 		minlength: [2, minlengthMsg],
 		maxlength: [13, maxlengthMsg],
+		dropDups: true,
 	},
 	eventCode: {
 		type: String,
 		required: [true, requiredMsg],
 		minlength: [2, minlengthMsg],
 		maxlength: [20, maxlengthMsg],
+		dropDups: true,
 	},
 	team: [TeammateSchema],
 }, { timestamps: true }

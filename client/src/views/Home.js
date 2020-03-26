@@ -37,7 +37,7 @@ export default () => {
                 navigate(`/assemblies/${assemblies[assembly]._id}`);
             }
         }
-        setError("No matches found. Please try again");
+        setError("No matches found. Please try another code, or start an event youself!");
     }
 
     return (
@@ -48,7 +48,7 @@ export default () => {
         <Col>
             <h4>If you have an EVENT CODE, enter here:</h4>
             <Form onSubmit={onSubmitHandler}>
-                <Form.Control className="w-50p" type="text" placeholder="ex: PARTYTIME" onChange={onEventCodeChange}></Form.Control>
+                <Form.Control className="w-50p" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></Form.Control>
                 <Button variant="primary" type="submit">Submit</Button>
                 {error !== "" ? <span className="d-b">{error}</span>:("")}
             </Form>
@@ -59,7 +59,7 @@ export default () => {
         </Col>
         
     </Row> 
-    : <Row className="px-3"><Col><h2>Welcome!</h2></Col></Row>}
+    : <Row className="px-3"><Col><h2>Loading...</h2></Col></Row>}
     
 
     <h3 className="mt-5">Remove when done. TODOS:</h3>

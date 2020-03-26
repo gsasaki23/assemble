@@ -3,8 +3,17 @@
   padding: 0;
 }
 
+.w-15p {
+  width: 15%;
+}
+.w-25p {
+  width: 25%;
+}
 .w-50p {
   width: 50%;
+}
+.w-75p {
+  width: 75%;
 }
 
 .d-b {
@@ -13,4 +22,24 @@
 
 .d-ilb {
   display: inline-block;
+}
+
+.c-g {
+  background-color: gray;
+}
+.c-lg {
+  background-color: lightgreen;
+}
+.c-lr {
+  background-color: lightcoral;
+}
+.c-y {
+  background-color: yellow;
+}
+
+.serverValError {
+  color: red;
+  display: inline-block;
+  margin-left: 5%;
+  font-weight: bold;
 }
