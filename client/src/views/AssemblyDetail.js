@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link, navigate } from '@reach/router';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 // Styling
 import Row from 'react-bootstrap/Row';
@@ -19,6 +21,7 @@ export default (props) => {
     const [secretCodeInput, setSecretCodeInput] = useState('');
 
 
+    // Initial Load: get assembly info given ID
     useEffect(()=>{
         axios.get(`http://localhost:8000/api/assembly/${props.id}`)
             .then(res => {
@@ -43,6 +46,24 @@ export default (props) => {
      // Listener for secret code input
     const onSecretCodeChange = event => {
         setSecretCodeInput(event.target.value.toUpperCase());
+    }
+
+    // Confirms deleting assembly, calling deleteAssembly if 'Yes' clicked
+    const confirmPopup = (event,assembly) => {
+        confirmAlert({
+            title: 'Warning',
+            message: `Are you sure you want to delete "${assembly.name}"? This cannot be undone.`,
+            buttons: [
+                {label: 'Yes',onClick: () => deleteAssembly(assembly._id)},
+                {label: 'No'}
+            ]
+        });
+    }
+    // Given ID, delete and jump back home
+    const deleteAssembly = (assemblyID) => {   
+        axios.delete('http://localhost:8000/api/assembly/delete/' + assemblyID)
+            .then(navigate("/"))
+            .catch(console.log)
     }
 
     return (
@@ -179,7 +200,7 @@ export default (props) => {
     <Row className="px-3" >
         <Col>
             <Button disabled={secretCodeInput === assembly.secretCode ? false : true} variant="warning" onClick={event=>navigate(`/assemblies/${props.id}/edit`)}>Edit Event</Button>
-            <Button disabled={secretCodeInput === assembly.secretCode ? false : true} variant="danger" onClick={event=>navigate("/")}>Delete Event</Button>
+            <Button disabled={secretCodeInput === assembly.secretCode ? false : true} variant="danger" onClick={event => confirmPopup(event,assembly)}>Delete Event</Button>
         </Col>
     </Row>
     </>
@@ -189,7 +210,7 @@ export default (props) => {
     }
     
 
-    <h3 className="mt-5">Remove when done. TODOS:</h3>
+    <h3 className="production">TODOS:</h3>
     <h3>styling</h3>
     <h3>way to edit teammate status within table</h3>
     <h3>delete button, reference team_manager for react-confirm-alert </h3>

@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { Link, navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 import randomWords from 'random-words';
 
 // Styling
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 // make name, secretcode, and eventcode unique
 
 export default () => {
-    // All Assemblies in DB
+    // All Names in DB
     const [dbnames, setDBnames] = useState([]);
+    // All EventCodes in DB
     const [dbeventcodes, setDBeventcodes] = useState([]);
-    const [dbsecretcodes, setDBsecretcodes] = useState([]);
 
     // The Assembly being built out of inputs
     const [inputAssembly, setInputAssembly] = useState({});
@@ -31,15 +30,12 @@ export default () => {
             .then(res => {                
                 let db_names = [];
                 let db_eventCodes = [];
-                let db_secretCodes = [];
                 res.data.forEach((assembly)=>{
                     db_names.push(assembly.name);
                     db_eventCodes.push(assembly.eventCode);
-                    db_secretCodes.push(assembly.secretCode);
                 });
                 setDBnames(db_names);
                 setDBeventcodes(db_eventCodes);
-                setDBsecretcodes(db_secretCodes);
             })
             .catch(console.log);
     },[]);
@@ -51,20 +47,11 @@ export default () => {
         // Create the would-be secret code with random words
         let randomTwo = randomWords({exactly: 2, minLength: 3, maxLength: 6, formatter: (word)=> word.toUpperCase()});
         let str = randomTwo[0] + randomTwo[1];
-            // In the absturdly small change of non-unique, try a second time. 
-            // TODO better to try infinitely until unique?
-        let found = false;
-        dbsecretcodes.forEach((secretCode)=>{
-            if(secretCode === str){
-                found = true;
-            }
-        })
-        if (found){
-            let randomTwo = randomWords({exactly: 2, minLength: 3, maxLength: 6, formatter: (word)=> word.toUpperCase()});
-            let str = randomTwo[0] + randomTwo[1];
-        }
         setInputAssembly({...inputAssembly,"secretCode":str});
         
+        // In the absturdly small change of non-unique, try infinitely until unique?
+        // make & use dbsecretcodes state, similar to dbeventcodes
+
         console.log(JSON.stringify(inputAssembly));
         
         axios.post(`http://localhost:8000/api/assembly/new`, inputAssembly)
@@ -212,7 +199,7 @@ export default () => {
     </Row>
     
 
-    <h3 className="mt-5">Remove when done. TODOS:</h3>
+    <h3 className="production">TODOS:</h3>
     <h3>styling</h3>
     <h3>placeholder date and times need to be touched for it to become valid...</h3>
     </>

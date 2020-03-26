@@ -13,6 +13,8 @@ export default () => {
     const [loaded, setLoaded] = useState(false);
     const [eventCode, setEventCode] = useState('');
     const [error, setError] = useState('');
+    // All Names in DB
+    const [dbnames, setDBnames] = useState([]);
     
     // Listener for form input
     const onEventCodeChange = event => {
@@ -26,6 +28,13 @@ export default () => {
             .then(res => {
                 setAssemblies(res.data);
                 setLoaded(true);
+                
+                // TODO Design decision: keep or nah
+                let db_names = [];
+                res.data.forEach((assembly)=>{
+                    db_names.push(assembly.name);
+                });
+                setDBnames(db_names);
             })
             .catch(console.log);
     },[]);
@@ -44,9 +53,9 @@ export default () => {
     <>
     <Row className="px-3"><Col><h2>Welcome!</h2></Col></Row>
     {loaded 
-    ? <Row className="px-3">
+    ? <><Row className="px-3">
         <Col>
-            <h4>If you have an EVENT CODE, enter here:</h4>
+            <h4>To jump with an EVENT CODE, enter here:</h4>
             <Form onSubmit={onSubmitHandler}>
                 <Form.Control className="w-50p" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></Form.Control>
                 <Button variant="primary" type="submit">Submit</Button>
@@ -57,12 +66,20 @@ export default () => {
             <h4>Or get started with a new event to assemble your team:</h4>
             <Button variant="success" onClick={event=>navigate("/new")}>Let's go!</Button>
         </Col>
-        
-    </Row> 
+    </Row>
+    <Row>
+        <Col className="production">
+            <h4>PRODUCTION - event names and codes:</h4>
+            {assemblies.map((assembly,idx)=>{
+                return (<p key={idx}>{`Name: ${assembly.name}, EventCode: ${assembly.eventCode}, SecretCode: ${assembly.secretCode}`}</p>)
+            })}
+        </Col>
+    </Row>
+    </> 
     : <Row className="px-3"><Col><h2>Loading...</h2></Col></Row>}
     
 
-    <h3 className="mt-5">Remove when done. TODOS:</h3>
+    <h3 className="production">TODOS:</h3>
     <h3>styling</h3>
     <h3>client-side validation</h3>
     <h3>optimizing search (make a new eventCode-searching route in server?)</h3>

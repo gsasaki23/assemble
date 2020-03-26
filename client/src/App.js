@@ -1,5 +1,5 @@
 // Dependency imports
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Router} from '@reach/router';
 
 // Views and components

@@ -49,3 +49,8 @@
   margin-left: 5%;
   font-weight: bold;
 }
+
+.production {
+  color: red;
+  margin-top: 5%;
+}

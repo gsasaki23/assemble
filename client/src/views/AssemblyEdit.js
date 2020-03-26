@@ -243,7 +243,7 @@ export default (props) => {
     }
     
 
-    <h3 className="mt-5">Remove when done. TODOS:</h3>
+    <h3 className="production">TODOS:</h3>
     <h3>styling</h3>
     <h3>getting the date to show by default</h3>
     </>
