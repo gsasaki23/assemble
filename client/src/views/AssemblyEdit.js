@@ -62,14 +62,14 @@ export default (props) => {
     return (
     <>
     {loaded && loadError === ""? 
-    <>
+    <div className="background">
     {/* Name */}
     <Row className="px-3">
         <Col xs={3}><h2>Event Name:</h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="text" defaultValue={assembly.name} onChange={event => {
+            <input className="w-50p d-ilb" type="text" defaultValue={assembly.name} onChange={event => {
             setInputAssembly({...inputAssembly,"name":event.target.value});
-            }}></Form.Control>
+            }}></input>
             {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
         </Col>
     </Row>
@@ -84,9 +84,9 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>Description:</h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="text" defaultValue={assembly.description} onChange={event => {
+            <input className="w-50p d-ilb" type="text" defaultValue={assembly.description} onChange={event => {
             setInputAssembly({...inputAssembly,"description":event.target.value});
-            }}></Form.Control>
+            }}></input>
             {errors.description !== undefined ? (<span className="serverValError">{errors.description.message}</span>):("")}
         </Col>
     </Row>
@@ -95,9 +95,9 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>Date: </h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="date" defaultValue={assembly.date} onChange={event => {
+            <input className="w-50p d-ilb" type="date" defaultValue={assembly.date} onChange={event => {
             setInputAssembly({...inputAssembly,"date":event.target.value});
-            }}></Form.Control>
+            }}></input>
             <p className="d-ilb">Previously: {assembly.date}</p>
             {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
         </Col>
@@ -107,9 +107,9 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>Start Time: </h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="date" value={assembly.start} onChange={event => {
+            <input className="w-50p d-ilb" type="date" value={assembly.start} onChange={event => {
             setInputAssembly({...inputAssembly,"start":event.target.value});
-            }}></Form.Control>
+            }}></input>
             <p className="d-ilb">Previously: {assembly.start}</p>
             {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
         </Col>
@@ -119,9 +119,9 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>End Time: </h2></Col>
         <Col>
-            <Form.Control className="w-50p d-ilb" type="date" onChange={event => {
+            <input className="w-50p d-ilb" type="date" onChange={event => {
             setInputAssembly({...inputAssembly,"end":event.target.value});
-            }}></Form.Control>
+            }}></input>
             <p className="d-ilb">Previously: {assembly.end}</p>
             {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
         </Col>
@@ -133,83 +133,32 @@ export default (props) => {
         <Col>
             {/* Name */}
             <div>
-                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></Form.Control>
+                <input className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
                 {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
             </div>
             {/* Street Line */}
             <div>
-                <Form.Control className="w-50p d-ilb" type="text" defaultValue={assembly.address.street} onChange={event => {
+                <input className="w-50p d-ilb" type="text" defaultValue={assembly.address.street} onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});
-                }}></Form.Control>
+                }}></input>
                 {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
             </div>
             {/* City, State, Zip */}
             <div>
-                <Form.Control className="w-15p d-ilb" type="text" defaultValue={assembly.address.city} onChange={event => {
+                <input className="w-15p d-ilb" type="text" defaultValue={assembly.address.city} onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
-                }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" defaultValue={assembly.address.state} onChange={event => {
+                }}></input>
+                <input className="w-15p d-ilb" type="text" defaultValue={assembly.address.state} onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
-                }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" defaultValue={assembly.address.zip} onChange={event => {
+                }}></input>
+                <input className="w-15p d-ilb" type="text" defaultValue={assembly.address.zip} onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
-                }}></Form.Control>
+                }}></input>
                 {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}
                 {errors["address.state"] !== undefined ? (<span className="serverValError">{errors["address.state"].message}</span>):("")}
                 {errors["address.zip"] !== undefined ? (<span className="serverValError">{errors["address.zip"].message}</span>):("")}
             </div>
         </Col>
-    </Row>
-    
-    
-    {/* Going */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Going:</h2></Col>
-        <Col>
-            <Table className="w-75p" hover size="sm">
-                <thead>
-                    <tr className="c-g">
-                        <th className="w-25p">Name</th>
-                        <th>Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {going.map((teammate, idx)=>{
-                return (
-                    <tr className="c-lg" key={idx}>
-                        <td>{teammate.name}</td>
-                        <td>{teammate.note}</td>
-                    </tr>
-                )
-                })}
-                </tbody>
-            </Table>
-    </Col>
-    </Row>
-    
-    {/* Can't Go */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Can't Go:</h2></Col>
-        <Col>
-            <Table className="w-75p" hover size="sm">
-                <thead>
-                    <tr className="c-g">
-                        <th className="w-25p">Name</th>
-                        <th>Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {cantgo.map((teammate, idx)=>{
-                    return (
-                        <tr className="c-lr" key={idx}>
-                        <td>{teammate.name}</td>
-                        <td>{teammate.note}</td>
-                    </tr>
-                )
-                })}
-                </tbody>
-            </Table>
-    </Col>
     </Row>
     
     {/* Undecided */}
@@ -241,15 +190,10 @@ export default (props) => {
     <Row className="px-3" >
         <Button variant="success" onClick={onSubmitHandler}>Save Changes</Button>
     </Row>
-    </>
+    </div>
     : loaded && loadError !== ""
     ? <Row className="px-3"><Col><h2>{`Error: Event with ID ${props.id} was not found.`}</h2><h2>Please try again, or make it yourself <span><Link to="/new">here</Link></span>!</h2></Col></Row>
     : <Row className="px-3"><Col><h2>Loading...</h2></Col></Row>
     }
-    
-
-    <h3 className="production">TODOS:</h3>
-    <h3>styling</h3>
-    <h3>getting the date to show by default</h3>
     </>
 )};

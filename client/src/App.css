@@ -80,6 +80,31 @@
 
 .teammates {
   padding: 1% 1% 1% 1%;
+  width: 50%;
+  margin: 1% auto 1% auto;
+  text-align: center;
+}
+.teammates nav a {
+  background-color: cadetblue;
+  color: black;
+  margin: 0 0 0 2%;
+  width: 30%;
+  font-weight: bolder;
+  font-size: large;
+}
+.navContent {
+  background-color: lightslategrey;
+  display: block;
+  padding: 1% 0 1% 0;
+}
+.noContent {
+  background-color: lightslategrey;
+  min-height: 10vh;
+  display: block;
+}
+
+.teammatesInput {
+  padding: 1% 1% 1% 1%;
   width: 85%;
   margin: 1% auto 1% auto;
   text-align: center;

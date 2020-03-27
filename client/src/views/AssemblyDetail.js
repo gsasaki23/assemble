@@ -9,6 +9,8 @@ import moment from 'moment';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Table from 'react-bootstrap/Table';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
 import { FaClock, FaCalendarWeek, FaMapMarkedAlt, FaInfoCircle } from "react-icons/fa";
 
@@ -85,7 +87,7 @@ export default (props) => {
         let unique = true;
         for (const teammate of assembly.team){
             if (event.target.value === teammate.name){
-                setTeammateErrors({...teammateErrors, "nameUnique":"This name is already marked."})
+                setTeammateErrors({...teammateErrors, "nameUnique":"This name is already listed."})
                 unique = false;
             }
         }
@@ -106,11 +108,11 @@ export default (props) => {
             ...inputTeammate, "status":str
         })
             .then(res => {
-                navigate(`/assemblies/${res.data._id}`)
+                document.getElementById("teammateForm").reset();
+                navigate(`/assemblies/${res.data._id}`);
             })
             .catch(err=>{
                 console.log(err.response.data);
-                
                 if (err.response.data){
                     setTeammateErrors({...teammateErrors, "server":"Please check your inputs and try again. \nName must be at least 2 characters, and Email must be in the correct format."})
                 }
@@ -194,109 +196,57 @@ export default (props) => {
                 </Row>
             </Col>
         </Row>
-        
-        {/* Teammates Section */}
-        <Row className = "teammates">
-            <Col>
-                <h3>Mark your attendance!</h3>
-                <div>
-                    <h5>Your Name:</h5>
-                    <input className="w-25p my-1" type="text" placeholder="ex: Thor" onChange={onNameChange}></input>
-                </div>
-                <div>
-                    <h5>Email:</h5>
-                    <input className="w-25p my-1" type="email" placeholder="ex: thor.odinson@gmail.com" onChange={onEmailChange}></input>
-                </div>
-                {/* Pseudo-submit buttons */}
-                <div>
-                    <h5>Status:</h5>
-                    <Button className="w-15p d-ilb" variant="success" disabled={teammateErrors.nameZero || teammateErrors.nameLen || teammateErrors.nameUnique ? true : false} onClick={event=>onSubmitHandler(event,"Going")}>Going</Button>
-                    <Button className="w-15p mx-2 d-ilb" variant="danger" disabled={teammateErrors.nameZero || teammateErrors.nameLen || teammateErrors.nameUnique ? true : false} onClick={event=>onSubmitHandler(event,"Can't Go")}>Can't Go</Button>
-                </div>
-                <div>
-                    {teammateErrors.server ? <h5 className="serverValError">{teammateErrors.server}</h5> :""}
-                    {teammateErrors.nameZero ? <h5 className="serverValError">{teammateErrors.nameZero}</h5> :""}
-                    {teammateErrors.nameLen ? <h5 className="serverValError">{teammateErrors.nameLen}</h5> :""}
-                    {teammateErrors.nameUnique ? <h5 className="serverValError">{teammateErrors.nameUnique}</h5> :""}
-                </div>
-            </Col>
-        </Row>
 
+        {/* Teammate List */}
+        <Row className="teammates"><Col>
+            <Tabs defaultActiveKey="going">
+                <Tab eventKey="going" title="Going">
+                    {going.length!==0 ? going.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                </Tab>
+                <Tab eventKey="undecided" title="Undecided">
+                    {undecided.length!==0 ? undecided.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                </Tab>
+                <Tab eventKey="cantgo" title="Can't Go">
+                    {cantgo.length!==0 ? cantgo.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                </Tab>
+            </Tabs>
+        </Col></Row>
 
-        {/* Going */}
-        <Row className="px-3">
-            <Col xs={3}><h2>Going:</h2></Col>
-            <Col>
-                <Table className="w-75p" hover size="sm">
-                    <thead>
-                        <tr className="c-g">
-                            <th className="w-25p">Name</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {going.map((teammate, idx)=>{
-                    return (
-                        <tr className="c-lg" key={idx}>
-                            <td>{teammate.name}</td>
-                            <td>{teammate.note}</td>
-                        </tr>
-                    )
-                    })}
-                    </tbody>
-                </Table>
-        </Col>
-        </Row>
-        
-        {/* Can't Go */}
-        <Row className="px-3">
-            <Col xs={3}><h2>Can't Go:</h2></Col>
-            <Col>
-                <Table className="w-75p" hover size="sm">
-                    <thead>
-                        <tr className="c-g">
-                            <th className="w-25p">Name</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {cantgo.map((teammate, idx)=>{
-                        return (
-                            <tr className="c-lr" key={idx}>
-                            <td>{teammate.name}</td>
-                            <td>{teammate.note}</td>
-                        </tr>
-                    )
-                    })}
-                    </tbody>
-                </Table>
-        </Col>
-        </Row>
-        
-        {/* Undecided */}
-        <Row className="px-3">
-            <Col xs={3}><h2>Undecided:</h2></Col>
-            <Col>
-                <Table className="w-75p" hover size="sm">
-                    <thead>
-                        <tr className="c-g">
-                            <th className="w-25p">Name</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {undecided.map((teammate, idx)=>{
-                        return (
-                            <tr className="c-y" key={idx}>
-                            <td>{teammate.name}</td>
-                            <td>{teammate.note}</td>
-                        </tr>
-                    )
-                    })}
-                    </tbody>
-                </Table>
-        </Col>
-        </Row>
+        {/* Teammates INput */}
+        <Row className = "teammatesInput"><Col><form id="teammateForm">
+            <Row><Col><h3>Mark your attendance!</h3></Col></Row>
+            {/* Name and Email Input */}
+            <Row>
+                <Col>
+                    <div>
+                        <h5>Your Name:</h5>
+                        <input className="w-75p my-1" type="text" placeholder="ex: Thor" onChange={onNameChange}  autoFocus></input>
+                    </div>
+                </Col>
+                <Col>
+                    <div>
+                        <h5>Email:</h5>
+                        <input className="w-75p my-1" type="email" placeholder="ex: thor.odinson@gmail.com" onChange={onEmailChange}></input>
+                    </div>
+                </Col>
+            </Row>
+            {/* Pseudo-submit buttons */}
+            <Row>
+                <Col>
+                    <div>
+                        <h5>Status:</h5>
+                        <Button className="w-15p d-ilb" variant="success" disabled={teammateErrors.nameZero || teammateErrors.nameLen || teammateErrors.nameUnique ? true : false} onClick={event=>onSubmitHandler(event,"Going")}>Going</Button>
+                        <Button className="w-15p mx-2 d-ilb" variant="danger" disabled={teammateErrors.nameZero || teammateErrors.nameLen || teammateErrors.nameUnique ? true : false} onClick={event=>onSubmitHandler(event,"Can't Go")}>Can't Go</Button>
+                    </div>
+                    <div>
+                        {teammateErrors.server ? <h5 className="serverValError">{teammateErrors.server}</h5> :""}
+                        {teammateErrors.nameZero ? <h5 className="serverValError">{teammateErrors.nameZero}</h5> :""}
+                        {teammateErrors.nameLen ? <h5 className="serverValError">{teammateErrors.nameLen}</h5> :""}
+                        {teammateErrors.nameUnique ? <h5 className="serverValError">{teammateErrors.nameUnique}</h5> :""}
+                    </div>
+                </Col>
+            </Row>
+        </form></Col></Row>
 
         {/* Edit/Delete Section */}
         <Row className = "editDelete">
