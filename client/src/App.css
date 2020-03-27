@@ -63,8 +63,17 @@
 }
 .desc {
   padding: 1% 1% 1% 1%;
-  margin: 0 0 0 2%;
+  margin: 0 auto 0 auto;
+  width: 75%;
   background-color: cadetblue;
+}
+.teammates {
+  padding: 1% 1% 1% 1%;
+  width: 85%;
+  margin: 1% auto 1% auto;
+  text-align: center;
+  background-color: rgb(40, 82, 83);
+  color:white;
 }
 .editDelete {
   padding: 1% 1% 1% 1%;
@@ -106,4 +115,16 @@ input, textarea{
 
 .production {
   color: red;
+}
+
+
+.statusInput {
+  color: white;
+  display: inline-block;
+  width: 15%;
+}
+.statusInputDefault {
+  color: red;
+  display: inline-block;
+  width: 15%;
 }

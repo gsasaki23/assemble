@@ -166,20 +166,25 @@ export default () => {
     <Row className="px-3">
         <Col xs={3}><h2>Location: </h2></Col>
         <Col>
+            {/* Name */}
+            <div>
+                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></Form.Control>
+                {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
+            </div>
             {/* Street Line */}
             <div>
-                <Form.Control className="w-50p d-ilb" type="text" placeholder="420 69th St" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});}}></Form.Control>
+                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});}}></Form.Control>
                 {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
             </div>
             {/* City, State, Zip */}
             <div>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="New York" onChange={event => {
+                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
                 }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="NY" onChange={event => {
+                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
                 }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="12345" onChange={event => {
+                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
                 setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
                 }}></Form.Control>
                 {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}

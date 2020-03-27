@@ -32,6 +32,10 @@ const AssemblySchema = new mongoose.Schema({
 		type: String,
 	},
 	address: {
+		name: {
+			type: String,
+			required: [true, requiredMsg]
+		},
 		street: {
 			type: String,
 			required: [true, requiredMsg]

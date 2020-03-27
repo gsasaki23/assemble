@@ -18,8 +18,7 @@ const TeammateSchema = new mongoose.Schema({
 			message: "Please enter a valid email."
 		}
 	},
-	status: String,
-	note: String,
+	status: String
 });
 
 // Create and export Teammate Model

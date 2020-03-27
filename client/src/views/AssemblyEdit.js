@@ -131,6 +131,11 @@ export default (props) => {
     <Row className="px-3">
         <Col xs={3}><h2>Location: </h2></Col>
         <Col>
+            {/* Name */}
+            <div>
+                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></Form.Control>
+                {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
+            </div>
             {/* Street Line */}
             <div>
                 <Form.Control className="w-50p d-ilb" type="text" defaultValue={assembly.address.street} onChange={event => {
