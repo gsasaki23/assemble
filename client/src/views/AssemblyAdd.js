@@ -98,114 +98,116 @@ export default () => {
 
     return (
     <div className="background">
-    
-    {/* Name */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Event Name (>2 chars):</h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange} autoFocus></Form.Control>
-            {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
-            {clientErrors.name !== undefined ? (<span className="clientValError">{clientErrors.name}</span>):("")}
-        </Col>
-    </Row>
-    
-    {/* Event Code */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Event Code (2~20 chars):</h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" onChange={onEventCodeChange}></Form.Control>
-            {errors.name !== undefined ? (<span className="serverValError">{errors.eventCode.message}</span>):("")}
-            {clientErrors.eventCode !== undefined ? (<span className="clientValError">{clientErrors.eventCode}</span>):("")}
-        </Col>
-    </Row>
+    {/* Page Title */}
+    <Row className="editHeading mx-auto"><Col>
+        <h1>New Event</h1>
+    </Col></Row>
 
-    {/* Description */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Description (Optional):</h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
-            setInputAssembly({...inputAssembly,"description":event.target.value});
-            }}></Form.Control>
-        </Col>
-    </Row>
-    
-    {/* Date */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Date: </h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="date" defaultValue="2017-06-13" onChange={event => {
-            setInputAssembly({...inputAssembly,"date":event.target.value});
-            }}></Form.Control>
-            {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
-        </Col>
-    </Row>
-    
-    {/* Start Time */}    
-    <Row className="px-3">
-        <Col xs={3}><h2>Start Time: </h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="time" defaultValue="13:00" onChange={event => {
-            setInputAssembly({...inputAssembly,"start":event.target.value});
-            }}></Form.Control>
-            {errors.start !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
-        </Col>
-    </Row>
+    {/* Name and EventCode */}
+    <Row className="editTop"><Col>
+        {/* Name */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Event Name:</h2></Col>
+            <Col>
+                <input autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={event => {
+                setInputAssembly({...inputAssembly,"name":event.target.value});
+                }}></input>
+                {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
+            </Col>
+        </Row>
+        {/* Event Code */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Event Code:</h2></Col>
+            <Col>
+                <input className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" onChange={onEventCodeChange}></input>
+                {errors.name !== undefined ? (<span className="serverValError">{errors.eventCode.message}</span>):("")}
+                {clientErrors.eventCode !== undefined ? (<span className="clientValError">{clientErrors.eventCode}</span>):("")}
+            </Col>
+        </Row>
+    </Col></Row>
 
-    {/* End Time */}    
-    <Row className="px-3">
-        <Col xs={3}><h2>End Time: </h2></Col>
-        <Col>
-            <Form.Control className="w-50p d-ilb" type="time" defaultValue="14:00" onChange={event => {
-            setInputAssembly({...inputAssembly,"end":event.target.value});
-            }}></Form.Control>
-            {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
-        </Col>
-    </Row>
-    
-    {/* Location */}
-    <Row className="px-3">
-        <Col xs={3}><h2>Location: </h2></Col>
-        <Col>
-            {/* Name */}
-            <div>
-                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></Form.Control>
-                {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
-            </div>
-            {/* Street Line */}
-            <div>
-                <Form.Control className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});}}></Form.Control>
-                {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
-            </div>
-            {/* City, State, Zip */}
-            <div>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
-                setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
-                }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
-                setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
-                }}></Form.Control>
-                <Form.Control className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
-                setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
-                }}></Form.Control>
-                {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}
-                {errors["address.state"] !== undefined ? (<span className="serverValError">{errors["address.state"].message}</span>):("")}
-                {errors["address.zip"] !== undefined ? (<span className="serverValError">{errors["address.zip"].message}</span>):("")}
-            </div>
-        </Col>
-    </Row>
+    {/* Everything else */}
+    <Row className="editMain mx-auto"><Col>
+        {/* Location */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Location: </h2></Col>
+            <Col>
+                {/* Name */}
+                <div>
+                    <input className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
+                    {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
+                </div>
+                {/* Street Line */}
+                <div>
+                    <input className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {
+                        setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});
+                    }}></input>
+                    {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
+                </div>
+                {/* City, State, Zip */}
+                <div>
+                    <input className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
+                    setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
+                    }}></input>
+                    <input className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
+                    setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
+                    }}></input>
+                    <input className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
+                    setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
+                    }}></input>
+                    {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}
+                    {errors["address.state"] !== undefined ? (<span className="serverValError">{errors["address.state"].message}</span>):("")}
+                    {errors["address.zip"] !== undefined ? (<span className="serverValError">{errors["address.zip"].message}</span>):("")}
+                </div>
+            </Col>
+        </Row>
+        {/* Date */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Date: </h2></Col>
+            <Col>
+                <input className="w-50p d-ilb" type="date" defaultValue="2020-01-01" onChange={event => {
+                setInputAssembly({...inputAssembly,"date":event.target.value});
+                }}></input>
+                {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
+            </Col>
+        </Row>
+        {/* Start Time */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Start Time: </h2></Col>
+            <Col>
+                <input className="w-50p d-ilb" type="time" defaultValue="13:00"  onChange={event => {
+                setInputAssembly({...inputAssembly,"start":event.target.value});
+                }}></input>
+                {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
+            </Col>
+        </Row>
+        {/* End Time */}    
+        <Row className="editSubSection">
+            <Col xs={3}><h2>End Time: </h2></Col>
+            <Col>
+                <input className="w-50p d-ilb" type="time" defaultValue="14:00" onChange={event => {
+                setInputAssembly({...inputAssembly,"end":event.target.value});
+                }}></input>
+                {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
+            </Col>
+        </Row>
+        {/* Description */}
+        <Row className="editSubSection">
+            <Col xs={3}><h2>Description:</h2></Col>
+            <Col>
+                <textarea className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
+                setInputAssembly({...inputAssembly,"description":event.target.value});
+                }}></textarea>
+                {errors.description !== undefined ? (<span className="serverValError">{errors.description.message}</span>):("")}
+            </Col>
+        </Row>
+    </Col></Row>
     
     {/* ~~~~~~~~~~~~~~~~~~Teammate List Here ~~~~~~~~~~~~~~~~~ */}
 
     {/* Submit Button */}
-    <Row className="px-3" >
-        <Col>
-            <Button variant="success" onClick={onClickHandler}>Create Event</Button>
-        </Col>
+    <Row className="mx-auto">
+        <Button className="mx-auto editSaveButton" variant="success" onClick={onClickHandler}>Create Event</Button>
     </Row>
-    
-
-    <h3 className="production">TODOS:</h3>
-    <h3>styling</h3>
-    <h3>placeholder date and times need to be touched for it to become valid...</h3>
     </div>
 )};

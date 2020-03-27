@@ -50,13 +50,18 @@ export default (props) => {
     {loaded && loadError === ""? 
     <div className="background">
     
+    {/* Page Title */}
+    <Row className="editHeading mx-auto"><Col>
+        <h1>Editing Event</h1>
+    </Col></Row>
+
     {/* Name and EventCode */}
     <Row className="editTop"><Col>
         {/* Name */}
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Name:</h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="text" defaultValue={assembly.name} onChange={event => {
+                <input autoFocus className="w-50p d-ilb" type="text" defaultValue={assembly.name} onChange={event => {
                 setInputAssembly({...inputAssembly,"name":event.target.value});
                 }}></input>
                 {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
@@ -77,7 +82,7 @@ export default (props) => {
             <Col>
                 {/* Name */}
                 <div>
-                    <input className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
+                    <input className="w-50p d-ilb" type="text" defaultValue={assembly.address.name} onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
                     {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
                 </div>
                 {/* Street Line */}

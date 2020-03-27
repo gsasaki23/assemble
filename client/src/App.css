@@ -127,7 +127,12 @@
   background-color: rgb(92, 131, 133);
 }
 
-/* AssemblyEdit Sections */
+/* AssemblyEdit and AssemblyAdd Sections */
+.editHeading {
+  padding: 1% 1% 1% 1%;
+  background-color: black;
+  color: blue;
+}
 .editTop {
   padding: 1% 1% 1% 1%;
   margin: 0 auto 0 auto;

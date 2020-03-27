@@ -142,6 +142,7 @@ export default (props) => {
     <>
     {loaded && error === ""
     ? <div className="background">
+        
         {/* Name and Codes */}
         <Row className="subHeader">
             <Col>
@@ -199,14 +200,17 @@ export default (props) => {
         {/* Teammate List */}
         <Row className="teammates"><Col>
             <Tabs defaultActiveKey="going">
+                {/* If no teammates in list, then show 'no one' msg. 
+                Else, reduce it into one string with commas in between. 
+                The tricky parts are that we're reducing over [obj] instead of [str], and the first idx has to be without a leading comma.*/}
                 <Tab eventKey="going" title="Going">
-                    {going.length!==0 ? going.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                    {going.length!==0 ? <h3 className="navContent">{going.reduce(function(prevVal,currVal,idx){return idx === 0 ? currVal.name : prevVal + ', ' + currVal.name;}, '')}</h3>: <h3 className="noContent">No one to show!</h3>}
                 </Tab>
                 <Tab eventKey="undecided" title="Undecided">
-                    {undecided.length!==0 ? undecided.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                    {undecided.length!==0 ? <h3 className="navContent">{undecided.reduce(function(prevVal,currVal,idx){return idx === 0 ? currVal.name : prevVal + ', ' + currVal.name;}, '')}</h3> : <h3 className="noContent">No one to show!</h3>}
                 </Tab>
                 <Tab eventKey="cantgo" title="Can't Go">
-                    {cantgo.length!==0 ? cantgo.map((teammate, idx)=>{return (<h3 className="navContent">{teammate.name}</h3>)}) : <h3 className="noContent">No one to show!</h3>}
+                    {cantgo.length!==0 ? <h3 className="navContent">{cantgo.reduce(function(prevVal,currVal,idx){return idx === 0 ? currVal.name : prevVal + ', ' + currVal.name;}, '')}</h3> : <h3 className="noContent">No one to show!</h3>}
                 </Tab>
             </Tabs>
         </Col></Row>
