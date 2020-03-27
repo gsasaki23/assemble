@@ -19,9 +19,11 @@ export default (props) => {
     const [going, setGoing] = useState([]);
     const [cantgo, setCantgo] = useState([]);
     const [undecided, setUndecided] = useState([]);
-    // Str after being formatter with moment
+    // Str after being formatted with moment
     const [dateStr, setDateStr] = useState("");
     const [timeStr, setTimeStr] = useState("");
+    // Str after being formatted for ghetto Google Maps call
+    const [gmapsStr, setGmapsStr] = useState("")
     // Helpers to render loading or error msg
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState('');
@@ -51,6 +53,8 @@ export default (props) => {
                         + " ~ " + 
                         moment(res.data.date + " " + res.data.end).format("h:mm a")
                     )
+
+                    setGmapsStr(`https://www.google.com/maps/search/` + `${res.data.address.street}+${res.data.address.city}+${res.data.address.state}+${res.data.address.zip}`.replace(/\s+/g,"+"))
                 }
                 else{
                     setError(`Error: Event with ID ${props.id} was not found.`);
@@ -136,7 +140,7 @@ export default (props) => {
     return (
     <>
     {loaded && error === ""
-    ? <Row className="background"><Col>
+    ? <div className="background">
         {/* Name and Codes */}
         <Row className="subHeader">
             <Col>
@@ -160,10 +164,10 @@ export default (props) => {
                             <FaMapMarkedAlt className="icon"/>
                         </div>
                         <div className="d-ilb">
-                            {assembly.address.name ? <h4 className="d-b ml-3">{assembly.address.name}</h4> : ""}
-                            <h5 className="d-b ml-3">{assembly.address.street}</h5>
-                            <h5 className="d-b ml-3">{`${assembly.address.city}, ${assembly.address.state} ${assembly.address.zip}`}</h5>
-                            <a className="d-b ml-3" href={`https://www.google.com/maps/search/420+69th+St+New+York,+NY+12345/`} target="_blank" rel="noopener noreferrer">Google Maps, BUILD THIS LATER!!!!</a>
+                            <h4 className="descChildB">{assembly.address.name}</h4>
+                            <h5 className="descChildB">{assembly.address.street}</h5>
+                            <h5 className="descChildB">{`${assembly.address.city}, ${assembly.address.state} ${assembly.address.zip}`}</h5>
+                            <a id="link" className="descChildB" href={gmapsStr} target="_blank" rel="noopener noreferrer">See on Google Maps</a>
                         </div>
                     </Col>
                 </Row>
@@ -171,21 +175,21 @@ export default (props) => {
                 <Row className="px-3">
                     <Col>
                         <FaCalendarWeek className="icon"/>
-                        <h5 className="d-ilb ml-3">{dateStr}</h5>
+                        <h5 className="descChildI">{dateStr}</h5>
                     </Col>
                 </Row>
                 {/* Time */}
                 <Row className="px-3">
                     <Col>
                         <FaClock className="icon"/>
-                        <h5 className="d-ilb ml-3">{timeStr}</h5>
+                        <h5 className="descChildI">{timeStr}</h5>
                     </Col>
                 </Row>
                 {/* Description */}
                 <Row className="px-3">
                     <Col>
                         <FaInfoCircle className="icon"/>
-                        <h4 className="d-ilb ml-3">{assembly.description !== "" ? assembly.description : "None"}</h4>
+                        <h4 className="descChildI">{assembly.description !== "" ? assembly.description : "None"}</h4>
                     </Col>
                 </Row>
             </Col>
@@ -308,7 +312,7 @@ export default (props) => {
 
         <h3 className="production">(Production) Secret Code: {assembly.secretCode}</h3>
 
-    </Col></Row>
+    </div>
 
     : loaded && error !== ""
     ? <Row className="px-3"><Col><h2>{`Error: Event with ID ${props.id} was not found.`}</h2><h2>Please try again, or make it yourself <span><Link to="/new">here</Link></span>!</h2></Col></Row>

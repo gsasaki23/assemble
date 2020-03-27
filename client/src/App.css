@@ -48,7 +48,6 @@
 /* AssemblyDetail Sections */
 .background {
   background-color: lightgray;
-  height: 100vh;
 }
 .icon {
   font-size: xx-large;
@@ -67,6 +66,18 @@
   width: 75%;
   background-color: cadetblue;
 }
+.descChildB  {
+  display: block;
+  margin-left: 13%;
+}
+#link {
+  color:darkblue;
+}
+.descChildI  {
+  display: inline-block;
+  margin-left: 2%;
+}
+
 .teammates {
   padding: 1% 1% 1% 1%;
   width: 85%;
@@ -74,6 +85,16 @@
   text-align: center;
   background-color: rgb(40, 82, 83);
   color:white;
+}
+.statusInput {
+  color: white;
+  display: inline-block;
+  width: 15%;
+}
+.statusInputDefault {
+  color: red;
+  display: inline-block;
+  width: 15%;
 }
 .editDelete {
   padding: 1% 1% 1% 1%;
@@ -115,16 +136,4 @@ input, textarea{
 
 .production {
   color: red;
-}
-
-
-.statusInput {
-  color: white;
-  display: inline-block;
-  width: 15%;
-}
-.statusInputDefault {
-  color: red;
-  display: inline-block;
-  width: 15%;
 }
