@@ -77,7 +77,6 @@
   display: inline-block;
   margin-left: 2%;
 }
-
 .teammates {
   padding: 1% 1% 1% 1%;
   width: 50%;
@@ -102,7 +101,6 @@
   min-height: 10vh;
   display: block;
 }
-
 .teammatesInput {
   padding: 1% 1% 1% 1%;
   width: 85%;
@@ -129,9 +127,43 @@
   background-color: rgb(92, 131, 133);
 }
 
+/* AssemblyEdit Sections */
+.editTop {
+  padding: 1% 1% 1% 1%;
+  margin: 0 auto 0 auto;
+  width: 95%;
+  background-color: rgb(40, 82, 83);
+  color: white;
+}
+.editMain {
+  padding: 1% 1% 1% 1%;
+  width: 95%;
+  background-color: cadetblue;
+}
+.editSubSection {
+  padding-left: 1%;
+  margin-bottom: 1%;
+}
+.editSaveButton {
+  width: 250px;
+  height: 69px;
+  margin: 2% 2%;
+  font-size: x-large;
+}
+
+
+
+
+
+
+
+
 input, textarea{
   background-color: lightgray;
   color: black;
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: large;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
   color:    black;

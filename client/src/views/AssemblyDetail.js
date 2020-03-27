@@ -8,7 +8,6 @@ import moment from 'moment';
 // Styling
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
@@ -212,7 +211,7 @@ export default (props) => {
             </Tabs>
         </Col></Row>
 
-        {/* Teammates INput */}
+        {/* Teammates Input */}
         <Row className = "teammatesInput"><Col><form id="teammateForm">
             <Row><Col><h3>Mark your attendance!</h3></Col></Row>
             {/* Name and Email Input */}
