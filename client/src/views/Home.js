@@ -37,27 +37,34 @@ export default () => {
                 navigate(`/assemblies/${assemblies[assembly]._id}`);
             }
         }
-        setError("No matches found. Please try another code, or start an event youself!");
+        setError("No matches found. Please try another code, or start an event youself below!");
     }
 
     return (
     <div className="background">
-    <Row className="px-3"><Col><h2>Welcome!</h2></Col></Row>
     {loaded 
-    ? <><Row className="px-3">
-        <Col>
-            <h4>To jump with an EVENT CODE, enter here:</h4>
-            <Form onSubmit={onSubmitHandler}>
-                <Form.Control className="w-50p" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></Form.Control>
-                <Button variant="primary" type="submit">Submit</Button>
-                {error !== "" ? <span className="d-b">{error}</span>:("")}
-            </Form>
-        </Col>
-        <Col>
-            <h4>Or get started with a new event to assemble your team:</h4>
-            <Button variant="success" onClick={event=>navigate("/new")}>Let's go!</Button>
-        </Col>
-    </Row>
+    ? <>
+    {/* Page Title */}
+    <Row className="editHeading mx-auto"><Col>
+        <h1>Welcome!</h1>
+    </Col></Row>
+
+    {/* Event Code Jumper */}
+    <Row className="codeJump mx-auto"><Col>
+        <h3>If you already have an EVENT CODE:</h3>
+        <Form onSubmit={onSubmitHandler}>
+            <input className="w-50p mt-3" id="eventCodeInput" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></input>
+            <Button className="submitButton" variant="primary" type="submit">Let's Go!</Button>
+            {error !== "" ? <span className="d-b">{error}</span>:("")}
+        </Form>
+    </Col></Row>
+
+    {/* New Jumper */}
+    <Row className="newJump mx-auto"><Col>
+        <h3 className="">Assemble your team for a NEW EVENT:</h3>
+        <Button className="newJumpButton" variant="success" onClick={event=>navigate("/new")}>Assemble!</Button>
+    </Col></Row>
+
     <Row>
         <Col className="production">
             <h4>PRODUCTION - event names and codes:</h4>
@@ -68,11 +75,5 @@ export default () => {
     </Row>
     </> 
     : <Row className="px-3"><Col><h2>Loading...</h2></Col></Row>}
-    
-
-    <h3 className="production">TODOS:</h3>
-    <h3>styling</h3>
-    <h3>client-side validation</h3>
-    <h3>optimizing search (make a new eventCode-searching route in server?)</h3>
     </div>
 )};

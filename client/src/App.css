@@ -45,6 +45,38 @@
   background-color: yellow;
 }
 
+/* Home Sections */
+.codeJump {
+  padding: 5% 5%;
+  width: 95%;
+  background-color: rgb(40, 82, 83);
+  color: white;
+}
+#eventCodeInput {
+  height: 75px;
+  font-size: x-large;
+}
+.submitButton {
+  width: 250px;
+  height: 69px;
+  font-size: x-large;
+  display: block;
+  margin: 2% 0;
+}
+.newJump {
+  padding: 5% 5%;
+  width: 95%;
+  background-color: cadetblue;
+  color: white;
+}
+.newJumpButton {
+  width: 250px;
+  height: 69px;
+  font-size: x-large;
+  display: block;
+  margin: 2% 0;
+}
+
 /* AssemblyDetail Sections */
 .background {
   background-color: lightgray;
