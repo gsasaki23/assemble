@@ -14,6 +14,11 @@ export default () => {
     // All Assemblies in DB
     const [assemblies, setAssemblies] = useState([]);
 
+    // PreFill Section: Hide input or not
+    const [hideDupeInput, setHideDupeInput] = useState(true);
+    const [dupeInput, setDupeInput] = useState("");
+    const [dupeAssembly, setDupeAssembly] = useState(null);
+
     // The Assembly being built out of inputs
     const [inputAssembly, setInputAssembly] = useState({});
     // Server-side validation errors
@@ -25,12 +30,12 @@ export default () => {
     useEffect(()=>{
         axios.get('http://localhost:8000/api/assembly/')
             .then(res => {
-                setAssemblies(res.data)
+                setAssemblies(res.data);
             })
             .catch(console.log);
     },[]);
     
-    // On Submit
+    // On Submit of Main Form
     const onClickHandler = e => {
         e.preventDefault();
 
@@ -88,11 +93,69 @@ export default () => {
         setInputAssembly({...inputAssembly,"eventCode":event.target.value.toUpperCase()});
     };
 
+    // Client-side validation for existence
+    const onDupeInputChange = event => {
+        // Force input to stay capitalized
+        event.target.value = event.target.value.toUpperCase();
+
+        // If code is found, enable the Copy button and set dupeAssembly state. Else disable
+        let found = false;
+        assemblies.forEach((assembly)=>{
+            if(assembly.eventCode === event.target.value.toUpperCase()){
+                found = true;
+                setDupeAssembly(assembly);
+            }
+        })
+        found ? setClientErrors({...clientErrors,"dupeInput":""}) : setClientErrors({...clientErrors,"dupeInput":"not found"})
+        setDupeInput(event.target.value.toUpperCase());
+    };
+    // On Submit of Dupe Input
+    const onDupeSubmit = e => {
+        //e.preventDefault();
+
+        // populate specific inputs in main with info of assembly with eventCode as dupeInput
+        console.log(JSON.stringify(dupeAssembly));
+
+        // WARNING: Will populate the inputs but onChange validators will not run :c
+        document.getElementById("mainName").value=dupeAssembly.name;
+        // document.getElementById("mainName").dispatchEvent(onNameChange(event));
+        document.getElementById("mainEventCode").value=dupeAssembly.eventCode;
+        document.getElementById("mainAddressName").value=dupeAssembly.address.name;
+        document.getElementById("mainAddressStreet").value=dupeAssembly.address.street;
+        document.getElementById("mainAddressCity").value=dupeAssembly.address.city;
+        document.getElementById("mainAddressState").value=dupeAssembly.address.state;
+        document.getElementById("mainAddressZip").value=dupeAssembly.address.zip;
+        document.getElementById("mainDate").value=dupeAssembly.date;
+        document.getElementById("mainStart").value=dupeAssembly.start;
+        document.getElementById("mainEnd").value=dupeAssembly.end;
+        document.getElementById("mainDescription").value=dupeAssembly.description;
+    };
+
     return (
     <div className="background">
     {/* Page Title */}
     <Row className="editHeading mx-auto"><Col>
         <h1>New Event</h1>
+    </Col></Row>
+
+    {/* Dupe Section */}
+    <Row className="dupeSection"><Col>
+        <Row>
+            {/* PreFill Prompt */}
+            <Col>
+                <h5 className = "dupeOpenHead my-auto">Pre-fill with info from another event?</h5>
+                {/* Unhides right Col, disable Copy button initially */}
+                <Button className="dupeOpenButton my-auto" variant="warning" onClick={e => {setHideDupeInput(false);setClientErrors({...clientErrors,"dupeInput":"not found"});}}>Yes</Button>
+            </Col>
+            {/* PreFill Input */}
+            <Col hidden={hideDupeInput ? true : false}>
+                <Row>
+                    <h4 className="my-auto">Copy from another Event Code:</h4>
+                    <input className="w-25p d-ilb" type="text" placeholder="ex: ANOTHER" onChange={onDupeInputChange}></input>
+                    <Button className="dupeSubmitButton" variant="success" disabled={clientErrors.dupeInput ? true : false} onClick={onDupeSubmit}>Copy!</Button>
+                </Row>
+            </Col>
+        </Row>
     </Col></Row>
 
     {/* Name and EventCode */}
@@ -101,7 +164,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Name:</h2></Col>
             <Col>
-                <input autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange}></input>
+                <input id="mainName" autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange}></input>
                 {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
                 {clientErrors.name !== undefined ? (<span className="clientValError">{clientErrors.name}</span>):("")}
             </Col>
@@ -110,7 +173,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Code:</h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" onChange={onEventCodeChange}></input>
+                <input id="mainEventCode" className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" onChange={onEventCodeChange}></input>
                 {errors.name !== undefined ? (<span className="serverValError">{errors.eventCode.message}</span>):("")}
                 {clientErrors.eventCode !== undefined ? (<span className="clientValError">{clientErrors.eventCode}</span>):("")}
             </Col>
@@ -125,25 +188,25 @@ export default () => {
             <Col>
                 {/* Name */}
                 <div>
-                    <input className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
+                    <input id="mainAddressName" className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
                     {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
                 </div>
                 {/* Street Line */}
                 <div>
-                    <input className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {
+                    <input id="mainAddressStreet" className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {
                         setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});
                     }}></input>
                     {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
                 </div>
                 {/* City, State, Zip */}
                 <div>
-                    <input className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
+                    <input id="mainAddressCity" className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
                     }}></input>
-                    <input className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
+                    <input id="mainAddressState" className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
                     }}></input>
-                    <input className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
+                    <input id="mainAddressZip" className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
                     }}></input>
                     {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}
@@ -156,7 +219,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Date: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="date" defaultValue="2020-01-01" onChange={event => {
+                <input id="mainDate" className="d-ilb" type="date" defaultValue="2020-01-01" onChange={event => {
                 setInputAssembly({...inputAssembly,"date":event.target.value});
                 }}></input>
                 {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
@@ -166,7 +229,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Start Time: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="time" defaultValue="13:00"  onChange={event => {
+                <input id="mainStart" className="d-ilb" type="time" defaultValue="13:00"  onChange={event => {
                 setInputAssembly({...inputAssembly,"start":event.target.value});
                 }}></input>
                 {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
@@ -176,7 +239,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>End Time: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="time" defaultValue="14:00" onChange={event => {
+                <input id="mainEnd" className="d-ilb" type="time" defaultValue="14:00" onChange={event => {
                 setInputAssembly({...inputAssembly,"end":event.target.value});
                 }}></input>
                 {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
@@ -186,7 +249,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Description:</h2></Col>
             <Col>
-                <textarea className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
+                <textarea id="mainDescription" className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
                 setInputAssembly({...inputAssembly,"description":event.target.value});
                 }}></textarea>
                 {errors.description !== undefined ? (<span className="serverValError">{errors.description.message}</span>):("")}

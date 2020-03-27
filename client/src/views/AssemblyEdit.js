@@ -113,7 +113,7 @@ export default (props) => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Date: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="date" defaultValue={assembly.date} onChange={event => {
+                <input className="d-ilb" type="date" defaultValue={assembly.date} onChange={event => {
                 setInputAssembly({...inputAssembly,"date":event.target.value});
                 }}></input>
                 {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
@@ -123,7 +123,7 @@ export default (props) => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Start Time: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="time" value={assembly.start} onChange={event => {
+                <input className="d-ilb" type="time" value={assembly.start} onChange={event => {
                 setInputAssembly({...inputAssembly,"start":event.target.value});
                 }}></input>
                 {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
@@ -133,7 +133,7 @@ export default (props) => {
         <Row className="editSubSection">
             <Col xs={3}><h2>End Time: </h2></Col>
             <Col>
-                <input className="w-50p d-ilb" type="time" value={assembly.end} onChange={event => {
+                <input className="d-ilb" type="time" value={assembly.end} onChange={event => {
                 setInputAssembly({...inputAssembly,"end":event.target.value});
                 }}></input>
                 {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}

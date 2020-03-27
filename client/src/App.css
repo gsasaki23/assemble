@@ -193,6 +193,13 @@
   background-color: black;
   color: blue;
 }
+.dupeSection {
+  padding: 1% 1% 1% 1%;
+  margin: 0 auto 0 auto;
+  width: 95%;
+  background-color: rgb(163, 182, 182);
+  color: white;
+}
 .editTop {
   padding: 1% 1% 1% 1%;
   margin: 0 auto 0 auto;
@@ -215,7 +222,20 @@
   margin: 2% 2%;
   font-size: x-large;
 }
-
+.dupeOpenHead {
+  display: inline-block;
+  margin-right: 1%;
+}
+.dupeOpenButton {
+  width: 70px;
+  height: 40px;
+  display: inline-block;
+}
+.dupeSubmitButton {
+  width: 70px;
+  height: 40px;
+  display: inline-block;
+}
 
 
 
@@ -224,23 +244,9 @@
 
 
 input, textarea{
-  background-color: lightgray;
-  color: black;
   padding: 5px;
   margin-bottom: 5px;
   font-size: large;
-}
-::-webkit-input-placeholder { /* WebKit browsers */
-  color:    black;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color:    black;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:    black;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color:    black;
 }
 
 .serverValError {
