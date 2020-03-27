@@ -53,7 +53,7 @@ export default () => {
     <Row className="codeJump mx-auto"><Col>
         <h3>If you already have an EVENT CODE:</h3>
         <Form onSubmit={onSubmitHandler}>
-            <input className="w-50p mt-3" id="eventCodeInput" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></input>
+            <input autoFocus className="w-50p mt-3" id="eventCodeInput" type="text" placeholder="ex: EVENTCODE" onChange={onEventCodeChange}></input>
             <Button className="submitButton" variant="primary" type="submit">Let's Go!</Button>
             {error !== "" ? <span className="d-b">{error}</span>:("")}
         </Form>

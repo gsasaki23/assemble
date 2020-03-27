@@ -11,10 +11,8 @@ import Button from 'react-bootstrap/Button';
 // make name, secretcode, and eventcode unique
 
 export default () => {
-    // All Names in DB
-    const [dbnames, setDBnames] = useState([]);
-    // All EventCodes in DB
-    const [dbeventcodes, setDBeventcodes] = useState([]);
+    // All Assemblies in DB
+    const [assemblies, setAssemblies] = useState([]);
 
     // The Assembly being built out of inputs
     const [inputAssembly, setInputAssembly] = useState({});
@@ -23,18 +21,11 @@ export default () => {
     // Client-side validation errors
     const [clientErrors, setClientErrors] = useState({});
     
-    // Initial: fetch all 3 lists to be used for client-side validations
+    // Initial: fetch all assemblies to be used for client-side validations
     useEffect(()=>{
         axios.get('http://localhost:8000/api/assembly/')
-            .then(res => {                
-                let db_names = [];
-                let db_eventCodes = [];
-                res.data.forEach((assembly)=>{
-                    db_names.push(assembly.name);
-                    db_eventCodes.push(assembly.eventCode);
-                });
-                setDBnames(db_names);
-                setDBeventcodes(db_eventCodes);
+            .then(res => {
+                setAssemblies(res.data)
             })
             .catch(console.log);
     },[]);
@@ -69,8 +60,8 @@ export default () => {
     // Client-side validation for uniqueness
     const onNameChange = event => {
         let found = false;
-        dbnames.forEach((name)=>{
-            if(name === event.target.value){
+        assemblies.forEach((assembly)=>{
+            if(assembly.name === event.target.value){
                 setClientErrors({...clientErrors,"name":"Name is already in use."});
                 found = true;
             }
@@ -82,9 +73,11 @@ export default () => {
     };
     // Client-side validation for uniqueness
     const onEventCodeChange = event => {
+        event.target.value = event.target.value.toUpperCase();
+
         let found = false;
-        dbeventcodes.forEach((eventCode)=>{
-            if(eventCode === event.target.value.toUpperCase()){
+        assemblies.forEach((assembly)=>{
+            if(assembly.eventCode === event.target.value.toUpperCase()){
                 setClientErrors({...clientErrors,"eventCode":"eventCode is already in use."});
                 found = true;
             }

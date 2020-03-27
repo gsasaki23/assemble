@@ -4,6 +4,7 @@ import {Router} from '@reach/router';
 
 // Views and components
 import Home from "./views/Home";
+import About from "./views/About";
 import AssemblyAdd from "./views/AssemblyAdd";
 import AssemblyDetail from "./views/AssemblyDetail";
 import AssemblyEdit from "./views/AssemblyEdit";
@@ -35,13 +36,9 @@ function App() {
         <Col>
           <Router>
             <Home path="/"/>
-
+            <About path="/about"/>
             <AssemblyAdd path="/new" />
-
-            {/* includes add teammate */}
             <AssemblyDetail path="/assemblies/:id" />
-
-            {/* includes add teammate */}
             <AssemblyEdit path="/assemblies/:id/edit" />
 
             <SocketTest path='/sockettest'/>

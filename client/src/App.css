@@ -77,6 +77,34 @@
   margin: 2% 0;
 }
 
+/* About Page */
+.blockOne {
+  padding: 2% 5%;
+  width: 95%;
+  background-color: rgb(40, 82, 83);
+  color: white;
+}
+.assembleTitle {
+  font-style: italic;
+  text-decoration: underline;
+}
+.aboutA {
+  margin-bottom: 1%;
+  font-style: italic;
+}
+.aboutB {
+  margin: 0 0 1% 3%;
+}
+.aboutC {
+  margin: 0 0 3% 3%;
+}
+.blockTwo {
+  padding: 2% 5%;
+  width: 95%;
+  background-color: cadetblue;
+  color: white;
+}
+
 /* AssemblyDetail Sections */
 .background {
   background-color: lightgray;
