@@ -97,7 +97,7 @@ export default () => {
     };
 
     return (
-    <>
+    <div className="background">
     
     {/* Name */}
     <Row className="px-3">
@@ -202,5 +202,5 @@ export default () => {
     <h3 className="production">TODOS:</h3>
     <h3>styling</h3>
     <h3>placeholder date and times need to be touched for it to become valid...</h3>
-    </>
+    </div>
 )};

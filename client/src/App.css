@@ -19,9 +19,17 @@
 .d-b {
   display: block
 }
-
 .d-ilb {
   display: inline-block;
+}
+.va-t {
+  vertical-align: top;
+}
+.va-c {
+  vertical-align: center;
+}
+.ta-r {
+  text-align: right;
 }
 
 .c-g {
@@ -35,6 +43,52 @@
 }
 .c-y {
   background-color: yellow;
+}
+
+/* AssemblyDetail Sections */
+.background {
+  background-color: lightgray;
+  height: 100vh;
+}
+.icon {
+  font-size: xx-large;
+  display: inline-block;
+  margin: 1% 0 1% 0;
+}
+.subHeader {
+  padding: 1% 1% 1% 1%;
+  margin: 0 0 1% 0;
+  background-color: black;
+  color: blue;
+}
+.desc {
+  padding: 1% 1% 1% 1%;
+  margin: 0 0 0 2%;
+  background-color: cadetblue;
+}
+.editDelete {
+  padding: 1% 1% 1% 1%;
+  width: 35%;
+  margin: 0 auto 0 auto;
+  text-align: center;
+  background-color: rgb(92, 131, 133);
+}
+
+input, textarea{
+  background-color: lightgray;
+  color: black;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  color:    black;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    black;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    black;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:    black;
 }
 
 .serverValError {
@@ -52,5 +106,4 @@
 
 .production {
   color: red;
-  margin-top: 5%;
 }

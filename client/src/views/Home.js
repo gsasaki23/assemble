@@ -41,7 +41,7 @@ export default () => {
     }
 
     return (
-    <>
+    <div className="background">
     <Row className="px-3"><Col><h2>Welcome!</h2></Col></Row>
     {loaded 
     ? <><Row className="px-3">
@@ -74,5 +74,5 @@ export default () => {
     <h3>styling</h3>
     <h3>client-side validation</h3>
     <h3>optimizing search (make a new eventCode-searching route in server?)</h3>
-    </>
+    </div>
 )};

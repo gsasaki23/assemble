@@ -29,6 +29,7 @@ function App() {
           <Nav.Link href="/about">About</Nav.Link>
           <Nav.Link href="/new">New</Nav.Link>
         </Nav>
+        <p className="text-muted">© 2020 by Gaku Sasaki</p>
       </Navbar>
       <Row>
         <Col>
