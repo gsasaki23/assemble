@@ -7,7 +7,6 @@ import randomWords from 'random-words';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 // make name, secretcode, and eventcode unique
 
@@ -109,10 +108,9 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Name:</h2></Col>
             <Col>
-                <input autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={event => {
-                setInputAssembly({...inputAssembly,"name":event.target.value});
-                }}></input>
+                <input autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange}></input>
                 {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
+                {clientErrors.name !== undefined ? (<span className="clientValError">{clientErrors.name}</span>):("")}
             </Col>
         </Row>
         {/* Event Code */}
