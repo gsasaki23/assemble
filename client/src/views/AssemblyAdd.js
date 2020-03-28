@@ -16,11 +16,11 @@ export default () => {
 
     // PreFill Section: Hide input or not
     const [hideDupeInput, setHideDupeInput] = useState(true);
-    const [dupeInput, setDupeInput] = useState("");
     const [dupeAssembly, setDupeAssembly] = useState(null);
+    const [hideCopiedMsg, setHideCopiedMsg] = useState(true);
 
     // The Assembly being built out of inputs
-    const [inputAssembly, setInputAssembly] = useState({});
+    const [inputAssembly, setInputAssembly] = useState({"address":{}});
     // Server-side validation errors
     const [errors, setErrors] = useState([]);
     // Client-side validation errors
@@ -42,14 +42,13 @@ export default () => {
         // Create the would-be secret code with random words
         let randomTwo = randomWords({exactly: 2, minLength: 3, maxLength: 6, formatter: (word)=> word.toUpperCase()});
         let str = randomTwo[0] + randomTwo[1];
-        setInputAssembly({...inputAssembly,"secretCode":str});
         
         // In the absturdly small change of non-unique, try infinitely until unique?
         // make & use dbsecretcodes state, similar to dbeventcodes
 
-        console.log(JSON.stringify(inputAssembly));
+        console.log("Sending to the Server, minus secretCode: " + JSON.stringify(inputAssembly));
         
-        axios.post(`http://localhost:8000/api/assembly/new`, inputAssembly)
+        axios.post(`http://localhost:8000/api/assembly/new`, {...inputAssembly,"secretCode":str})
             .then(res => {
                 navigate(`/assemblies/${res.data._id}`)
             })
@@ -62,36 +61,34 @@ export default () => {
             })
     }
 
-    // Client-side validation for uniqueness
-    const onNameChange = event => {
+    // Client-side validation for uniqueness, runs any time inputAssembly.name is changed
+    useEffect(()=>{
         let found = false;
         assemblies.forEach((assembly)=>{
-            if(assembly.name === event.target.value){
-                setClientErrors({...clientErrors,"name":"Name is already in use."});
+            if(assembly.name === inputAssembly.name){
+                setClientErrors({...clientErrors,"name":"Name must be unique!"});
                 found = true;
             }
         })
         if(!found){
             setClientErrors({...clientErrors,"name":""});
         }
-        setInputAssembly({...inputAssembly,"name":event.target.value});
-    };
-    // Client-side validation for uniqueness
-    const onEventCodeChange = event => {
-        event.target.value = event.target.value.toUpperCase();
+        console.log(inputAssembly.name);
+    },[inputAssembly.name])
 
+    // Client-side validation for uniqueness, runs any time inputAssembly.eventCode is changed
+    useEffect(()=>{
         let found = false;
         assemblies.forEach((assembly)=>{
-            if(assembly.eventCode === event.target.value.toUpperCase()){
-                setClientErrors({...clientErrors,"eventCode":"eventCode is already in use."});
+            if(assembly.eventCode === inputAssembly.eventCode){
+                setClientErrors({...clientErrors,"eventCode":"Event Code must be unique!"});
                 found = true;
             }
         })
         if(!found){
             setClientErrors({...clientErrors,"eventCode":""});
         }
-        setInputAssembly({...inputAssembly,"eventCode":event.target.value.toUpperCase()});
-    };
+    },[inputAssembly.eventCode])
 
     // Client-side validation for existence
     const onDupeInputChange = event => {
@@ -106,29 +103,33 @@ export default () => {
                 setDupeAssembly(assembly);
             }
         })
-        found ? setClientErrors({...clientErrors,"dupeInput":""}) : setClientErrors({...clientErrors,"dupeInput":"not found"})
-        setDupeInput(event.target.value.toUpperCase());
+        if (found){
+            setClientErrors({...clientErrors,"dupeInput":""}) 
+        }
+        else {
+            setClientErrors({...clientErrors,"dupeInput":"not found"});
+            setDupeAssembly(null);
+        }
     };
     // On Submit of Dupe Input
     const onDupeSubmit = e => {
         //e.preventDefault();
 
-        // populate specific inputs in main with info of assembly with eventCode as dupeInput
-        console.log(JSON.stringify(dupeAssembly));
+        // // WARNING: Will populate the inputs but onChange validators will not run :c
+        // populate inputs in main with info of assembly with eventCode as dupeInput
 
-        // WARNING: Will populate the inputs but onChange validators will not run :c
-        document.getElementById("mainName").value=dupeAssembly.name;
-        // document.getElementById("mainName").dispatchEvent(onNameChange(event));
-        document.getElementById("mainEventCode").value=dupeAssembly.eventCode;
-        document.getElementById("mainAddressName").value=dupeAssembly.address.name;
-        document.getElementById("mainAddressStreet").value=dupeAssembly.address.street;
-        document.getElementById("mainAddressCity").value=dupeAssembly.address.city;
-        document.getElementById("mainAddressState").value=dupeAssembly.address.state;
-        document.getElementById("mainAddressZip").value=dupeAssembly.address.zip;
-        document.getElementById("mainDate").value=dupeAssembly.date;
-        document.getElementById("mainStart").value=dupeAssembly.start;
-        document.getElementById("mainEnd").value=dupeAssembly.end;
-        document.getElementById("mainDescription").value=dupeAssembly.description;
+        setInputAssembly({...inputAssembly,
+            // name:dupeAssembly.name,
+            // eventCode:dupeAssembly.eventCode,
+            "address":{"name":dupeAssembly.address.name, "street":dupeAssembly.address.street, "city":dupeAssembly.address.city, "state":dupeAssembly.address.state, "zip":dupeAssembly.address.zip},
+            date:dupeAssembly.date,
+            start:dupeAssembly.start,
+            end:dupeAssembly.end,
+            description:dupeAssembly.description,
+        });
+        setHideCopiedMsg(false);
+
+        // Idea: Populate with the team from original, but set everyone to "Undecided"
     };
 
     return (
@@ -152,7 +153,8 @@ export default () => {
                 <Row>
                     <h4 className="my-auto">Copy from another Event Code:</h4>
                     <input className="w-25p d-ilb" type="text" placeholder="ex: ANOTHER" onChange={onDupeInputChange}></input>
-                    <Button className="dupeSubmitButton" variant="success" disabled={clientErrors.dupeInput ? true : false} onClick={onDupeSubmit}>Copy!</Button>
+                    <Button className="dupeSubmitButton" variant="success" disabled={clientErrors.dupeInput ? true : false} onClick={onDupeSubmit}>Copy</Button>
+                    <h5 hidden={hideCopiedMsg ? true : false} className="clientValError">Copied!</h5>
                 </Row>
             </Col>
         </Row>
@@ -164,7 +166,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Name:</h2></Col>
             <Col>
-                <input id="mainName" autoFocus className="w-50p d-ilb" type="text" placeholder="ex: Alien Landing" onChange={onNameChange}></input>
+                <input className="w-50p d-ilb" value={inputAssembly.name} autoFocus type="text" placeholder="ex: Alien Landing" onChange={event => {setInputAssembly({...inputAssembly,"name":event.target.value});}}></input>
                 {errors.name !== undefined ? (<span className="serverValError">{errors.name.message}</span>):("")}
                 {clientErrors.name !== undefined ? (<span className="clientValError">{clientErrors.name}</span>):("")}
             </Col>
@@ -173,8 +175,8 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Event Code:</h2></Col>
             <Col>
-                <input id="mainEventCode" className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" onChange={onEventCodeChange}></input>
-                {errors.name !== undefined ? (<span className="serverValError">{errors.eventCode.message}</span>):("")}
+                <input className="w-50p d-ilb" type="text" placeholder="ex: SQUIDWARD" value={inputAssembly.eventCode} onChange={event => {setInputAssembly({...inputAssembly,"eventCode":event.target.value.toUpperCase()});}}></input>
+                {errors.eventCode !== undefined ? (<span className="serverValError">{errors.eventCode.message}</span>):("")}
                 {clientErrors.eventCode !== undefined ? (<span className="clientValError">{clientErrors.eventCode}</span>):("")}
             </Col>
         </Row>
@@ -188,25 +190,25 @@ export default () => {
             <Col>
                 {/* Name */}
                 <div>
-                    <input id="mainAddressName" className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
+                    <input value={inputAssembly.address.name} className="w-50p d-ilb" type="text" placeholder="ex: Sanctum Sanctorum" onChange={event => {setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"name":event.target.value}});}}></input>
                     {errors["address.name"] !== undefined ? (<span className="serverValError">{errors["address.name"].message}</span>):("")}
                 </div>
                 {/* Street Line */}
                 <div>
-                    <input id="mainAddressStreet" className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {
+                    <input value={inputAssembly.address.street} className="w-50p d-ilb" type="text" placeholder="ex: 420 69th St" onChange={event => {
                         setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"street":event.target.value}});
                     }}></input>
                     {errors["address.street"] !== undefined ? (<span className="serverValError">{errors["address.street"].message}</span>):("")}
                 </div>
                 {/* City, State, Zip */}
                 <div>
-                    <input id="mainAddressCity" className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
+                    <input value={inputAssembly.address.city} className="w-15p d-ilb" type="text" placeholder="ex: New York" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"city":event.target.value}});
                     }}></input>
-                    <input id="mainAddressState" className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
+                    <input value={inputAssembly.address.state} className="w-15p d-ilb" type="text" placeholder="ex: NY" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"state":event.target.value}});
                     }}></input>
-                    <input id="mainAddressZip" className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
+                    <input value={inputAssembly.address.zip} className="w-15p d-ilb" type="text" placeholder="ex: 12345" onChange={event => {
                     setInputAssembly({...inputAssembly,"address":{...inputAssembly.address,"zip":event.target.value}});
                     }}></input>
                     {errors["address.city"] !== undefined ? (<span className="serverValError">{errors["address.city"].message}</span>):("")}
@@ -219,7 +221,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Date: </h2></Col>
             <Col>
-                <input id="mainDate" className="d-ilb" type="date" defaultValue="2020-01-01" onChange={event => {
+                <input value={inputAssembly.date} className="d-ilb" type="date" defaultValue="2020-01-01" onChange={event => {
                 setInputAssembly({...inputAssembly,"date":event.target.value});
                 }}></input>
                 {errors.date !== undefined ? (<span className="serverValError">{errors.date.message}</span>):("")}
@@ -229,9 +231,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Start Time: </h2></Col>
             <Col>
-                <input id="mainStart" className="d-ilb" type="time" defaultValue="13:00"  onChange={event => {
-                setInputAssembly({...inputAssembly,"start":event.target.value});
-                }}></input>
+                <input value={inputAssembly.start}  className="d-ilb" type="time" defaultValue="13:00"  onChange={event => {setInputAssembly({...inputAssembly,"start":event.target.value});}}></input>
                 {errors.start !== undefined ? (<span className="serverValError">{errors.start.message}</span>):("")}
             </Col>
         </Row>
@@ -239,7 +239,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>End Time: </h2></Col>
             <Col>
-                <input id="mainEnd" className="d-ilb" type="time" defaultValue="14:00" onChange={event => {
+                <input value={inputAssembly.end} className="d-ilb" type="time" defaultValue="14:00" onChange={event => {
                 setInputAssembly({...inputAssembly,"end":event.target.value});
                 }}></input>
                 {errors.end !== undefined ? (<span className="serverValError">{errors.end.message}</span>):("")}
@@ -249,7 +249,7 @@ export default () => {
         <Row className="editSubSection">
             <Col xs={3}><h2>Description:</h2></Col>
             <Col>
-                <textarea id="mainDescription" className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
+                <textarea value={inputAssembly.description} className="w-50p d-ilb" type="text" placeholder="ex: eArtH iS CloSEd tODaY" onChange={event => {
                 setInputAssembly({...inputAssembly,"description":event.target.value});
                 }}></textarea>
                 {errors.description !== undefined ? (<span className="serverValError">{errors.description.message}</span>):("")}
@@ -261,7 +261,7 @@ export default () => {
 
     {/* Submit Button */}
     <Row className="mx-auto">
-        <Button className="mx-auto editSaveButton" variant="success" onClick={onClickHandler}>Create Event</Button>
+        <Button className="mx-auto editSaveButton" variant="success" disabled={clientErrors.name || clientErrors.eventCode ? true : false} onClick={onClickHandler}>Create Event</Button>
     </Row>
     </div>
 )};

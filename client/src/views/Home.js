@@ -16,6 +16,9 @@ export default () => {
     
     // Listener for form input
     const onEventCodeChange = event => {
+        // Force input to stay capitalized
+        event.target.value = event.target.value.toUpperCase();
+        
         setEventCode(event.target.value);
         // add char length validations as needed here
     }

@@ -250,13 +250,13 @@ input, textarea{
 }
 
 .serverValError {
-  color: red;
+  color: hotpink;
   display: inline-block;
   margin-left: 5%;
   font-weight: bold;
 }
 .clientValError {
-  color: blue;
+  color: hotpink;
   display: inline-block;
   margin-left: 5%;
   font-weight: bold;
