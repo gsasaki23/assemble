@@ -1,5 +1,5 @@
-# Assemble!: A Event and Attendee Organizer App
-Organize events and anyone who wants to attend - without the hassle of signing up!
+# Assemble!
+A web app to organize events and anyone who wants to attend - without the hassle of signing up!
 
 ## Main Features:
 * Make events that you want to organize, or find an event to sign up for.
