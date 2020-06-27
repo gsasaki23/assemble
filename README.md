@@ -12,6 +12,6 @@ A web app to organize events and anyone who wants to attend - without the hassle
 * More Mobile-Friendliness
 
 ## Links
-* [Live Site - Subject to Change](http://3.22.171.196/)
+* [Live Site (Paused)]
 * Find this project on [GitHub](https://github.com/gsasaki23/assemble_project.git)
 * Deployed automatically using GitHub and [AWS](https://aws.amazon.com/)
